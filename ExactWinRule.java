@@ -1,16 +1,21 @@
-import java.util.List;
+import java.util.Map;
 
 public class ExactWinRule implements Rule {
+    private final int finalCell;
+
+    public ExactWinRule(int finalCell) {
+        this.finalCell = finalCell;
+    }
+
     @Override
-    public boolean apply(Player player, Board board, RollResult rollResult, List<Player> players) {
-        int finalCell = board.getSize() * board.getSize();
-        int prevPos = rollResult.getPrevPos();
-        if (prevPos + rollResult.getSum() > finalCell) {
-            System.out.println(player.getName() + " needs an exact roll to win. Staying at " + prevPos);
-            
-            int[] rc = board.getRowCol(prevPos);
-            player.setPosition(rc[0], rc[1]);
+    public RuleResult apply(Player player, int rollResult, Board board, Map<Player, Integer> positions) {
+        int currentPos = positions.get(player);
+        int newPos = currentPos + rollResult;
+
+        if (newPos > finalCell) {
+            System.out.println(player.getName() + " cannot move, needs exact roll to win.");
+            newPos = currentPos; // stay in same place
         }
-        return false;
+        return new RuleResult(newPos, false);
     }
 }

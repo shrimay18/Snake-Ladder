@@ -1,5 +1,5 @@
-import java.util.List;
+import java.util.Map;
 
 public interface Rule {
-    boolean apply(Player player, Board board, RollResult rollResult, List<Player> players);
+    RuleResult apply(Player player, int rollResult, Board board, Map<Player, Integer> positions);
 }

@@ -1,18 +1,21 @@
-import java.util.List;
+import java.util.Map;
 
 public class KillRule implements Rule {
+
     @Override
-    public boolean apply(Player player, Board board, RollResult rollResult, List<Player> players) {
-        int playerPos = board.getLinearPos(player.getRow(), player.getCol());
-        for (Player other : players) {
-            if (other == player) continue;
-            int otherPos = board.getLinearPos(other.getRow(), other.getCol());
-            if (otherPos == playerPos) {
-                System.out.println(player.getName() + " landed on " + other.getName()
-                        + " — sending " + other.getName() + " back to start.");
-                other.setPosition(0, 0);
+    public RuleResult apply(Player player, int rollResult, Board board, Map<Player, Integer> positions) {
+        int newPos = positions.get(player) + rollResult;
+
+        // Check if any other player is on the same cell
+        for (Map.Entry<Player, Integer> entry : positions.entrySet()) {
+            Player other = entry.getKey();
+            if (!other.equals(player) && entry.getValue() == newPos) {
+                System.out.println(player.getName() + " landed on " + other.getName() + "! " +
+                        other.getName() + " goes back to start.");
+                positions.put(other, 0);
+                other.setPosition(0);
             }
         }
-        return false;
+        return new RuleResult(newPos, false);
     }
 }

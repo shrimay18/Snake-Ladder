@@ -1,15 +1,23 @@
 public abstract class Entities {
-    protected String id;
-    protected int start;
-    protected int end;
+    private final String name;
+    private final int start;
+    private final int end;
 
-    public Entities(String id, int start, int end) {
-        this.id = id;
+    public Entities(String name, int start, int end) {
+        this.name = name;
         this.start = start;
         this.end = end;
     }
 
-    public String getId() { return id; }
-    public int getStart() { return start; }
-    public int getEnd() { return end; }
+    public String getName() {
+        return name;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
 }

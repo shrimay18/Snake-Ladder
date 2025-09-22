@@ -1,12 +1,19 @@
-import java.util.List;
+import java.util.Map;
 
 public class ExtraTurnRule implements Rule {
+    private final int numDice;
+
+    public ExtraTurnRule(int numDice) {
+        this.numDice = numDice;
+    }
+
     @Override
-    public boolean apply(Player player, Board board, RollResult rollResult, List<Player> players) {
-        if (rollResult.isAllSixes()) {
-            System.out.println(player.getName() + " rolled all sixes 🎉 — gets another turn!");
-            return true;
+    public RuleResult apply(Player player, int roll, Board board, Map<Player, Integer> positions) {
+        int newPos = positions.get(player) + roll;
+        if (roll == numDice * 6) {
+            System.out.println(player.getName() + " rolled all sixes! Gets an extra turn.");
+            return new RuleResult(newPos, true);
         }
-        return false;
+        return new RuleResult(newPos, false);
     }
 }
