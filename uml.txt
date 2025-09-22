@@ -1,0 +1,103 @@
++-----------------+
+|     Player      |  <<interface>>
++-----------------+
+| +setName(name)  |
+| +setColor(color)|
+| +setPosition(row,col) |
+| +getName()      |
+| +getPosition()  |
++-----------------+
+        ^
+        |
+  ------------------------------
+  |                            |
++-----------------+       +-----------------+
+| HumanPlayer     |       | Bot             |
++-----------------+       +-----------------+
+| -name:String    |       | -name:String    |
+| -color:String   |       | -color:String   |
+| -row:int        |       | -row:int        |
+| -col:int        |       | -col:int        |
++-----------------+       +-----------------+
+| +setName()      |       | +setName()      |
+| +setColor()     |       | +setColor()     |
+| +setPosition()  |       | +setPosition()  |
+| +getName()      |       | +getName()      |
+| +getPosition()  |       | +getPosition()  |
++-----------------+       +-----------------+
+
++-----------------+
+|     Dice        |
++-----------------+
+| -numDice:int    |
++-----------------+
+| +roll():int     |
+| +getNumDice()   |
++-----------------+
+
++------------------------------+
+|            Board             |
++------------------------------+
+| -size:int                    |
+| -entities:List<Entities>     |
+| -entityMap:Map<int,Entities> |
++------------------------------+
+| +setEntities(List<Entities>) |
+| +getEntityAt(int):Entities   |
+| +display(List<Player>)       |
+| +getSize()                   |
++------------------------------+
+
++-------------------------------+
+|         BoardBuilder          |
++-------------------------------+
+| -size:int                     |
+| -rand:Random                  |
++-------------------------------+
+| +buildBoard(difficulty):Board |
+| -sameRow(cell1,cell2):boolean |
++-------------------------------+
+
++-----------------+
+|   Entities      |  <<abstract>>
++-----------------+
+| -name:String    |
+| -start:int      |
+| -end:int        |
++-----------------+
+| +getName()      |
+| +getStart()     |
+| +getEnd()       |
++-----------------+
+        ^
+        |
+   ----------------
+   |              |
++--------+      +--------+
+| Snake  |      | Ladder |
++--------+      +--------+
+|        |      |        |
++--------+      +--------+
+
++---------------------------------------------------------+
+|                     Rule                                |  <<interface>>
++---------------------------------------------------------+
+| +apply(Player,int,Board,Map<Player,Integer>):RuleResult |
++---------------------------------------------------------+
+        ^
+        |
+  -------------------------------------------------
+  |                |               |              |
++-----------+ +-----------+ +------------+ +-----------+
+|SnakeLadder| |ExtraTurn  | |ExactWin    | |KillRule   |
++-----------+ +-----------+ +------------+ +-----------+
+
++------------------+
+|  RuleResult      |
++------------------+
+| -newPosition:int |
+| -extraTurn:bool  |
++------------------+
+| +getNewPosition()|
+| +hasExtraTurn()  |
++------------------+
