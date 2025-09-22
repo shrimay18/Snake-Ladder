@@ -14,9 +14,7 @@ public class GameEngine {
         this.ruleEngine = ruleEngine;
     }
 
-    /**
-     * Runs the game until a player wins
-     */
+    
     public void start(Map<Player, Integer> positions) {
         boolean gameOver = false;
         int turn = 0;
@@ -39,19 +37,15 @@ public class GameEngine {
                 int roll = dice.roll();
                 System.out.println(current.getName() + " rolled: " + roll);
 
-                // Apply all rules via RuleEngine
                 RuleResult result = ruleEngine.applyRules(current, roll, board, positions);
 
                 current.setPosition(result.getNewPosition());
                 positions.put(current, result.getNewPosition());
 
-                // Check extra turn
                 extraTurn = result.hasExtraTurn();
 
-                // Display board
                 board.display(players);
 
-                // Check win
                 if (result.getNewPosition() == totalCells) {
                     System.out.println("\n🏆 " + current.getName() + " WINS! 🏆");
                     gameOver = true;

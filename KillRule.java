@@ -6,7 +6,6 @@ public class KillRule implements Rule {
     public RuleResult apply(Player player, int rollResult, Board board, Map<Player, Integer> positions) {
         int newPos = positions.get(player) + rollResult;
 
-        // Check if any other player is on the same cell
         for (Map.Entry<Player, Integer> entry : positions.entrySet()) {
             Player other = entry.getKey();
             if (!other.equals(player) && entry.getValue() == newPos) {
